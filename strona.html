@@ -1,0 +1,231 @@
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Strona</title>
+<link rel="stylesheet" href="styl22.css">
+  <style>
+  header{
+	margin:0px;
+	text-align:center;
+	line-height: 20px;
+	color:#ff8533;
+	height:5%;
+	font-size:20px;
+}
+
+#panellewy{
+	float:left;
+	width:49%;
+	height:95%;
+	color:#ff8533;
+	border-color:white;
+	border-width:1%;
+	border-right-style: solid;
+	border-top-style: solid;
+
+}
+
+#panelprawy{
+	border-width:1%;
+	border-top-style: solid;
+	border-left-style: solid;
+	float:right;
+	width:49%;
+	height:95%;
+	color:white;
+	
+}
+#dvCSV{
+	width:80%;
+	margin-left:20px;
+}
+#tabela2{
+	background-color:#b3e0ff;
+	width:85%;
+	margin-top:5px;
+	margin-left:60px;
+	text-align:center;
+}
+#opis{
+	border-color:white;
+	border-top-style: solid;
+	border-bottom-style: solid;
+	background-image: linear-gradient(270deg, #ffcc99, #c2d6d6);
+	text-align:center;
+	margin-top:20px;
+	margin-bottom:20px;
+	padding:10px;
+
+	font-family:Tahoma;
+}
+#opis2{
+	padding:20px;
+	text-align:left;
+	width:55%;
+	height:50%;
+	background-image: linear-gradient(270deg, #ffcc99, #c2d6d6);
+	border: 3px solid white;
+	margin:5%;
+	font-size:140%;
+	
+}
+#opis3{
+	text-align:left;
+	width:30%;
+	height:50%;
+	background-image: linear-gradient(90deg, #ffcc99, #c2d6d6);
+	border: 3px solid white;
+	margin:5%;
+	padding:20px;
+	float:right;
+	font-size:130%;
+}
+
+td, table{
+	border: 3px solid white;
+	border-collapse:collapse;
+	font-size: 17px;
+	
+
+}
+table{ 
+	filter: brightness(50%);
+	width:100%
+
+}
+a{
+	color:black;
+}
+body{	
+	background-image: linear-gradient(to left top, #00cc99, #ffcc99);
+    margin: 0;
+	height:97%;
+}
+h1{
+	text-align:center;
+	text-size:20px;
+}
+h2{
+	text-align:center;
+
+}
+h3{
+	margin:5px;
+	font-size:40px;
+	text-align:center;
+	color:#ff8533;
+}
+  
+  </style>
+  
+  
+</head>
+<body>
+  
+<header>
+<h1> Uniwersytet Ekonomiczny w Krakowie - Informatyka stosowana - Przemysław Szwajcowski </h1>
+</header>
+
+<div id="panellewy">
+
+<div id="opis3">
+Tabela przedstawia przykładowe dane pracowników </br>
+Jej struktura składa się z 10 kolumn opisujących kolejno:
+  
+<ol>
+<li>ID</li>
+<li>Imię</li>
+<li>Nazwisko</li>
+<li>e-mail</li>
+<li>Płeć</li>
+<li>Miasto</li>
+<li>Adres</li>
+<li>Wypłatę</li>
+<li>Datę końca pracy</li>
+<li>Obecność w pracy</li>
+</ol>
+</div>
+
+<div id="opis2">
+<h2>Autor</h2>
+<ul>
+<li>Wybrałem ten kierunek z pasji oraz dlatego, że ten kierunek jest bardzo przyszłościowy.</li>
+<li>Mam nadzieję, że nauczę się robić strony o niebo lepsze niż aktualna i znajdę dzięki temu ciekawą pracę.</li>
+<li>Brak osiągnięć</li>
+<li>Planuję zostać programistą</li>
+<li>Moje hobby to: programowanie, jazda na rowerze, słuchanie muzyki</li>
+</ul>
+</div>
+
+<div id="opis">
+<h2>Internet</h2>
+<div id="forma">
+<form action="https://pl.search.yahoo.com/search?">
+<label for="fname">Tutaj możesz wpisać hasło które będziesz chciał wyszukać w internecie, zostaniesz przekierowany na wyszukiwarkę Yahoo:</label>
+<input type="text" id="q" name="q" value=""><br>
+<input type="submit" id="przycisk"value="Search">
+</form>
+</div>
+Miłego sufrowania!</br>
+</div>
+</div>
+
+<div id="panelprawy">
+<h3>Dane</h3>
+<script type="text/javascript">
+    function Upload() {
+        var fileUpload = document.getElementById("fileUpload");
+        var regex = /^([a-zA-Z0-9\s_\\.\-:])+(.csv|.txt)$/;
+        if (regex.test(fileUpload.value.toLowerCase())) {
+            if (typeof (FileReader) != "undefined") {
+                var reader = new FileReader();
+                reader.onload = function (e) {
+                    var table = document.createElement("table");
+                    var rows = e.target.result.split("\n");
+                    for (var i = 0; i < 11; i++) {
+                        var cells = rows[i].split(",");
+                        if (cells.length > 1) {
+                            var row = table.insertRow(-1);
+                            for (var j = 0; j < cells.length; j++) {
+                                var cell = row.insertCell(-1);
+                                cell.innerHTML = cells[j];
+                            }
+                        }
+                    }
+                    var dvCSV = document.getElementById("dvCSV");
+                    dvCSV.innerHTML = "";
+                    dvCSV.appendChild(table);
+                }
+                reader.readAsText(fileUpload.files[0]);
+            } else {
+                alert("This browser does not support HTML5.");
+            }
+        } else {
+            alert("Please upload a valid CSV file.");
+        }
+    }
+</script>
+Wybierz plik csv - 
+<input type="file" id="fileUpload" /> 
+<input type="button" id="upload" value="Upload" onclick="Upload()" />
+<hr />
+<div id="dvCSV" >
+</div>
+
+<div id="tabela2">
+<table width=100%>
+<tr><td>XML</td><td>JSON</td><td>CSV</td></tr>
+<tr><td>Jest niezależny od platformy, co umożliwia łatwą wymianę dokumentów pomiędzy heterogenicznymi (różnymi) systemami i znacząco przyczyniło się do popularności tego języka w dobie Internetu. XML jest standardem rekomendowanym oraz specyfikowanym przez organizację W3C</td>
+<td>Jest formatem tekstowym, bazującym na podzbiorze języka JavaScript. Typ MIME dla formatu JSON to application/json. Format został opisany w dokumencie RFC 4627</td>
+<td>Format przechowywania danych w plikach tekstowych i odpowiadający mu typ MIME text/csv.</td></tr>
+<tr><td><a href="f.xml">Plik XML</a></td>
+<td><a href="f.json">Pik JSON</a></td>
+<td><a href="f.csv">Plik CSV</a></td></tr>
+
+</table>
+<div>
+
+</div>
+
+</body>
+</html>
