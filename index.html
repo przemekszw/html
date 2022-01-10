@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Projekt grupowy</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.5.0/Chart.min.js"></script>
+	<style>
+	body{
+    background: #292929;
+    color: white;
+}
+
+
+table th{
+    font-weight: bold;
+    font-size: 20px;
+    text-align: left;
+    color: red;
+    padding: 10px;
+}
+
+table td {
+    font-weight: normal;
+    font-size: 20px;
+    padding: 10px;
+}
+
+table {
+    text-align: left;
+    overflow: hidden;
+    width: 90%;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+
+
+table tr:nth-child(odd) {
+    background-color: #a2a2a2;
+}
+
+table tr:nth-child(even) {
+    background-color: #232323;
+}
+
+table th {
+    background-color: black;
+}
+
+table tr:hover {
+    background-color: #464A52;
+}
+
+table td:hover {
+    background-color: red;
+    color: yellow;
+}
+
+.chart{
+    background: #a2a2a2;
+    text-align: center;
+    padding-top: 100px;
+    float: left;
+    width: 50%;
+    height: 400px;
+}
+.pie{
+    background: #a2a2a2;
+    text-align: center;
+    margin: 0 auto;
+    float: left;
+    width: 50%;
+    height: 500px;
+}
+.tableclass{
+    overflow:scroll;
+    height:400px;
+}
+	</style>
+</head>
+<body>
+
+  <div class="tableclass">
+  <table class="table">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>First Name</th>
+        <th>Last Name</th>
+		<th>e-mail</th>
+		<th>Gender</th>
+		<th>City</th>
+		<th>Age</th>
+      </tr>
+    </thead>
+    <tbody id="data">
+
+    </tbody>
+  </table>
+</div>
+<div class="pie">
+  <canvas id="myChart" style="width:100%;max-width:450px"></canvas>
+  </div>
+<div class="chart">
+  <canvas id="myChart2" style="width:100%;max-width:600px"></canvas>
+</div>
+    <script>
+       fetch("https://my.api.mockaroo.com/users.json?key=e359d7d0").then(
+  res => {
+    res.json().then(
+      data => {
+        if (data.length > 0) {
+		
+		  // Tworzenie  zmiennych
+          var temp = "";
+		  var females = 0;
+		  var males = 0;
+		  var dwa = 0;
+		  var cztery = 0;
+		  var szesc = 0;
+		  var osiem = 0;
+          data.forEach((itemData) => {
+		  
+			// Generowanie tabeli
+            temp += "<tr>";
+            temp += "<td>" + itemData.id + "</td>";
+            temp += "<td>" + itemData.first_name + "</td>";
+            temp += "<td>" + itemData.last_name + "</td>";
+			temp += "<td>" + itemData.email + "</td>";
+			temp += "<td>" + itemData.gender + "</td>";
+			temp += "<td>" + itemData.city + "</td>";
+			temp += "<td>" + itemData.age + "</td></tr>";
+			
+			// Liczenie wykresu "Różnorodność płci"
+			if(itemData.gender == "Female"){
+			females += 1;
+			}
+			if(itemData.gender == "Male"){
+			males += 1;
+			}
+			
+			// Liczenie wykresu "Liczba osób w przedziale wiekowym"
+			if(itemData.age >= 20 && itemData.age <= 40){
+			dwa += 1;
+			}
+			if(itemData.age > 40 && itemData.age < 60){
+			cztery += 1;
+			}
+			if(itemData.age > 60 && itemData.age <= 80){
+			szesc += 1;
+			}
+			if(itemData.age > 80 && itemData.age <= 100){
+			osiem += 1;
+			}
+          });
+	
+	// Wykresy
+	var xValues = ["Mężczyźni", "Kobiety"];
+    var yValues = [males, females];
+    var barColors = [
+      "yellow",
+      "red",
+    ];
+    
+	// Koło
+    new Chart("myChart", {
+      type: "pie",
+      data: {
+        labels: xValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: yValues
+        }]
+      },
+      options: {
+        title: {
+          display: true,
+          text: "Różnorodność płci"
+        }
+      }
+    });
+	
+	// Słupkowy
+    var aValues = ["20-40", "41-60", "61-80", "81-100"];
+    var bValues = [dwa,cztery,szesc,osiem];
+    var barColors = ["black","blue","red","yellow"];
+    new Chart("myChart2", {
+      type: "bar",
+      data: {
+        labels: aValues,
+        datasets: [{
+          backgroundColor: barColors,
+          data: bValues
+        }]
+      },
+      options: {
+        legend: {display: false},
+        title: {
+          display: true,
+          text: "Liczba osób w przedziale wiekowym"
+        }
+      }
+    });
+          document.getElementById('data').innerHTML = temp;
+        }
+      }
+    )
+  }
+)
+</script>
+</body>
+</html>
